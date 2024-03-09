@@ -76,7 +76,25 @@ The history can be broken into 3 phases:
 ### Active Networks
 
 Took place during mid 1990's to early 2000's, the internet grew at a rapid pace during this time. From 
-infancy to adolescense.
+infancy to adolescence.
 
 Researchers were keen on testing new ideas to improve network services. Although these ideas required
-standardization of new protocols
+standardization of new protocols from the **Internet Engineering Task Force** (IETF).
+
+Active Networking aimed to open up network control. Initially an API was envisioned to expose 
+resources/network nodes and supported customization of functionalities for subsets of packets
+passing through the network nodes.
+
+The simplicity of the networking core was successful for the internet's success.
+
+in the 1990's networking was primarily IP or ATM (Asynchronous Transfer Mode). Active networking 
+became one of the first clean slate approaches to network architecture.
+
+1. Capsule Model
+    - Carried in-band data packets
+2. programmable Router/Switch Model
+    - Established out-of-band mechanisms
+
+      
+
+
