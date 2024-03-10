@@ -179,3 +179,136 @@ routing controllers
 - Redirecting/dropping suspected attack traffic 
 - Allowing customer networks more control over traffic flow 
 - Offering value added services for VPN customers 
+
+Most work during this phase tried to manage routing with single ISP. Some proposals to enable 
+flexible route control across many administrative domains
+
+***To separate the control and data planes*** results in a few concepts in SDN design: 
+
+- Logically centralized control using an open interface to the data plane
+- Distributed state management 
+
+Initially, many people thought separating the control and data planes was a bad idea. Since 
+there was no clear idea as to how these networks would operate if a controller failed.
+
+Skepticism about moving away from a simple network where there was a common Network State to one 
+where the router only had a local view of the outcome of route selection.
+
+However... this separation helped researchers think clearly about distributed state management.
+Several projects exploring clean slate architecture commenced and laid the foundation for 
+OpenFlow API
+
+## OpenFlow API and Network Operating Systems
+
+2007 - 2010
+
+OpenFlow was created from interest of idea of network experimentation at a scale. It was able to balance 
+the vision of fully programmable networks and the practicality of ensuring real world deployment.
+
+OpenFlow built on existing hardware and enabled more functions that earlier router controllers. The 
+dependency on hardware limited flexibility, it also enabled immediate deployment
+
+### Technology Push
+
+- Before OpenFlow, switch chipset vendors had already started to allow programmers to control some 
+forwarding behaviors
+- Allowed more companies to build switches without having to design and fabricate their own data plane
+- Early OpenFlow versions built on technology that the switches already supported. 
+    - Enabling OpenFlow was as simple as a Firmware Upgrade!!!
+
+### Use Pulls
+
+- OpenFlow came to meet the need of large scale experimentation on network architectures
+- OpenFlow was useful in data-center networks: managing traffic at a large scale
+- Companies started investing ore in programmers to write control programs 
+    - instead of proprietary switches that could not be supported new features easily
+    - allowed many smaller players to become competitive in the market by supporting OpenFlow 
+
+### Key Effects OpenFlow had
+
+- Generalizing network devices and functions
+- The vision of a network operating system 
+- Distributed state management techniques
+
+# Quiz 2 
+
+### Question 1 
+
+The Active Networks phase consisted mainly of creating a programming interface that exposed 
+resources/network nodes and supported customization of functionalities for subsets of 
+packets passing through the network. 
+
+- True
+- False
+
+### Answer 
+
+- True 
+
+### Question 2 
+
+One of the main differences between the Active Networks phase and the separation of the
+Control and Data plane phase is that the former is focused on network-wide visibility and 
+control and the latter is focused on device-level configurations. 
+
+- True
+- False
+
+### Answer 
+
+- False
+
+### Question 3 
+
+An OpenFlow switch has a table of packet-handling rules, and whenever it receives a packet, 
+it determines the highest priority matching rule, performs the action associated with it 
+and increments the respective counter. 
+
+- True
+- False
+
+### Answer 
+
+- True 
+
+### Question 4 
+
+One of the downfalls of OpenFlow when it was first created was that it was hard to 
+deploy and scale it easily. 
+
+- True
+- False
+
+### Answer 
+
+- False
+
+# Why Separate Data and Control Plane?
+
+SDN differentiates from traditional approaches by separating these things.
+
+The **Control Plane** contains the logic that controls the forwarding behaviour of routers such as 
+- routing protocols 
+- network middlebox configurations
+
+The **Data Plane** performs the actual forwarding as dictated by the control plane.
+  - IP forwarding and Layer 2 switching are functions of the data plane
+
+### Reasons for separation
+
+1. Independent evolution and development
+
+    - traditionally, routers were responsible for both routing and forwarding of traffic.
+        - this means that a change to this requires upgrade of hardware.
+    - now, routers only focus on forwarding 
+        - this allows innovation to continue independently, easier development 
+
+2. Control from high level software program 
+    - SDN we use software to compute the forwarding tables 
+    - decoupling of functions makes debugging and checking behavior of networks easier 
+
+Separation of Control and Data Planes allows for independent evolution/innovation of each area. 
+
+Software can evolve independently from hardware.
+
+
