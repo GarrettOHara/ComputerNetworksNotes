@@ -7,22 +7,22 @@ Software Defined Networking (SDN) were created to **make computer networks more 
 
 Computer Networks are difficult/complex for 2 reasons:
 
-- Diversity of equiptment on networks
-- Proprietary technologies for equiptment on said networks
+- Diversity of equipment on networks
+- Proprietary technologies for equipment on said networks
 
-### Diversity of Equiptment
+### Diversity of Equipment
 
 Routers, Switches, Middleboxes: Firewalls, Network Address Translators (NATs), 
 Server Load Balancers, Intrusion Detection Systems (IDSs), etc.
 
-Each equiptment may implement separate protocls in order to interact with. Very complex.
+Each equipment may implement separate protocols in order to interact with. Very complex.
 
-### Proproetary Technologies
+### Proprietary Technologies
 
 Routers and Switches tend to run software that is closed source and proprietary.
 
-Configuration interaces vary/differ between vendors. Sometimes they differ from the same vendor.
-It is hard to manage these devices in a central mannar.
+Configuration interacts vary/differ between vendors. Sometimes they differ from the same vendor.
+It is hard to manage these devices in a central manner.
 
 ### Complexity
 
@@ -35,7 +35,7 @@ operating costs of networks.
 In programming, this can be seen as making modular functions/libraries. Easy to manage individually, 
 when combined able to build/design/solve complex problems.
 
-SDN divides the netwrok into two planes: 
+SDN divides the network into two planes: 
 
 - Control Plane
 - Data Plane
@@ -450,7 +450,7 @@ Responsible for forwarding traffic in a network based on rules computed by the S
 
 ### SDN Controller 
 
-SDN controller is a logically centralized entitty that acts as an interface between 
+SDN controller is a logically centralized entity that acts as an interface between 
 network elements and network control applications.
 
 ### Network Control Applications 
