@@ -596,5 +596,67 @@ Top to bottom view
   synchronization problems and prefer distributed controllers to provide highly scalable 
   services.
 
+# Quiz 4 
 
+### Question 1 
+
+Match the number of the missing components in the following image with their respective name/example.
+![question 1 image](./ImagesLesson7/5.png)
+
+
+Choices: 
+- OpenFlow
+- RESTful API 
+- Flow Tables 
+- SDN Controller 
+- Load Balancer
+
+1
+2 
+3 
+4 
+5 
+
+### Answer 
+
+1 Load Balancer
+2 RESTful API
+3 Flow Tables
+4 OpenFlow 
+5 SDN Controller
+
+### Question 2 
+
+The northbound interface is used by the controller and the network-control applications to 
+interact with each other. 
+
+- True
+- False
+
+### Answer 
+
+- True
+
+### Question 3 
+
+A REST interface is an example of a southbound API. 
+
+- True
+- False
+
+### Answer 
+
+- False 
+
+### Question 4 
+
+SDN controllers that are implemented by centralized servers are more likely to achieve fault 
+tolerance, high availability and efficiency. 
+
+- True
+- False
+
+### Answer 
+
+- False
 
