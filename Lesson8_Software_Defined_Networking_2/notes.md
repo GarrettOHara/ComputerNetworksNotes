@@ -432,4 +432,38 @@ it receives new routing information?
 
 # SDN Controllers: Centralized vs Decentralized
 
+Traditional networking's largest drawback is that the devices use low level device/vendor specific
+instruction sets and run on proporetary networking operating systems. This challenges the ability 
+to be vendor/device agnostic development and abstraction. Two things that are key to solving 
+networking problems.
+
+SDN offers ligically centralized control. A controller is a critical element in an SDN architecture
+as it is the key supporting peice for control logic applications to generate networkd configuratoin
+based on the policies defined by the network operator
+
+There is a broad range of architecturs when it comes to controllers and control platforms
+
+
+-----------------------< HERE IS WHERE I STOPPED TAKING GOOD NOTES >--------------------
+
+### Core Controller Functions
+
+Basic functions: topology, statistics, notifications, dvice management, shortest path forwarding, 
+security mechanisms
+
+### Centralized Controllers
+
+Single entity that manages all forwarding devices in the network and can be a single point of failure
+and can have scaling issues
+
+Enterprise, data centers, cloud providers, etc.
+
+### Distributed Controllers
+
+
+Can scale to meet the requirements of potenially any environment
+
+1. Weak consistency semantics
+2. Fault Tolerance
+
 
