@@ -720,3 +720,197 @@ legit users/clients.
 2. The attacker sets the same IP address in both the source and destination 
 fields. This results in the server sending the replies to itself, causing 
 a crash.
+
+
+# DDoS: Reflection and Amplification
+
+This examines additional DoS techniques.
+
+### Reflection and Amplification Attacks
+
+In a reflection attack, attacker uses a set of reflectors to innate the 
+attack on the victim. A **reflector** is any server that sends a response 
+to a request. 
+
+**Example:** any web server or DNS server that returns a SYN ACK in response 
+to a SYN packet as part of a TCP handshake.
+
+**Other Examples:** Query responses sent by a host or Host Unreachable responses 
+to a particular IP 
+
+The master directs slaves to send spoofed requests to a LOT of reflectors
+(around 1 million or more). The slaves set the source address of the packets 
+to the **victim IP**, thereby redirecting the response of the reflectors to 
+the victim. Thus, the victim receives responses from millions of reflectors 
+resulting in exhaustion of resources and or bandwidth.
+
+Victim is wasted in processing responses. It is unable to serve legit requests.
+
+![Reflectors to render DDOS Attack](./ImagesLesson9/12.png)
+
+The master commands the 3 slaves to send spoofed requets to the reflectors, 
+which in turn sends traffic to the victim. This is in contract with the 
+convention DDOS attack we saw before, where slaves directly send traffic 
+to the vimctim. Note that the vimctim can easily identify the reflectors 
+from the response packets. However, the reflector cannot identify the slave
+sending the spoofed requests.
+
+If the requests are chosen in such a way that the reflectors send large 
+responses to the victim, it is a **reflection amplification attack**
+
+Not only would the victim receive traffic from millions of servers, the response 
+sent would be large in size, making it difficult for the victim to handle 
+the incoming requests.
+
+# Quiz 5 
+
+
+### Question 1
+A Distributed Denial of Service Attack consists on the attacker 
+sending a large volume of traffic to the victim through servers 
+(slaves), so that the victim host becoming unreachable or in 
+exhaustion of its bandwidth. 
+
+- True
+- False
+
+### Answer
+- True
+
+### Question 2
+IP spoofing is the act of setting a false IP address in the source 
+field of a packet with the purpose of impersonating a legitimate server. 
+
+- True
+- False
+### Answer
+- True
+
+### Question 3
+In a reflection attack, the attackers use a set of reflectors to 
+initiate an attack on the victim. 
+
+- True
+- False
+
+### Answer
+- True
+
+### Question 4
+During a Reflection and Amplification attack, the slaves set the source 
+address of the packets to the ________________ IP address. 
+
+- Attacker’s
+- Slaves’
+- Reflectors’
+- Victim’s
+
+### Answer
+- Victim’s
+
+### Question 5
+What is the difference between a conventional DDoS and a 
+Reflection and Amplification attack? 
+- In a DDoS attack, the volume of traffic sent to the victim is much larger.
+- In a DDos attack, the slaves send traffic directly to the victim as 
+opposed to a reflector sending the traffic to the victim.
+- In a Reflection and Amplification attack, there are no slaves.
+
+### Answer
+- In a DDos attack, the slaves send traffic directly to the victim as 
+opposed to a reflector sending the traffic to the victim.
+
+# Defense Against DDoS Attacks 
+
+### Traffic Scrubbing Services
+
+Scrubbing service diverts the incoming traffic to specialized server. 
+The traffic is "*scrubbed*" into clean or unwanted traffic. The clean traffic 
+is sent to its original destination. 
+
+Although this offers find-grained filtering of packets, there are monetary 
+costs required for an in-time subscription, setup and other reoccurring costs.
+The other limitations include reduced effectiveness per packet processing and 
+challenges in handling Tbps-level attacks.
+
+There is also a possibility of decreased performance as the traffic can be 
+routed and become susceptible to evasion attacks.
+
+### ACL Filters
+
+Access Control List filters are deployed by ISPs or IXPs as their AS border 
+routers to filter out unwanted traffic. These filters whose implementation 
+depends on vendor specific hardware, are effective when the hardware is 
+homogeneous, and the deployment of the filters can be automated. The drawbacks 
+of these filters include limited scalability and since the filtering does 
+not occur at the ingress points it can exhaust the bandwidth to a neighboring AS
+
+### BGP FlowSpec
+
+Flow Specification, a feature of BGP. Helps mitigate DDoS Attacks by 
+supporting the deployment and propagation of fine grained filters across AS 
+domain borders.
+
+It can be designed to match a specific flow or be based on packet attributes like 
+length and fragment. It can also be based on the drop rate limit.
+
+Popular in intra-domain environments. **not** popular in inter-domain environments 
+as it depends on trust and cooperation among competitive networks.
+
+BGP FlowSpec is an extension of BGP protocol, allowing rules to be created on 
+the traffic flows and take corresponding actions. This feature of BGP can help 
+mitigate DDoS attacks by specifying appropriate rules. The AS domain borders 
+supporting BGP Flowspec are capable of matching packets in specific flow based 
+on a variety of parameters such as 
+- source IP
+- destination IP 
+- packet length 
+- protocol used 
+- etc.
+
+This table shows the available components with an example for FlowSpec:
+
+![BGP FlowSpec Rule Component Types](./ImagesLesson9/13.png)
+
+BGP Flowspec example: The following flow specification rule (specified here in a dictionary format) filters all HTTP/HTTPS traffic from port 80 and 443 to one of the Google servers with IP 172.217.19.195 from subnet 130.89.161.0/24. 
+```json
+{ 
+   “type 1”: "172.217.19.195/32”
+   “type 2": "130.89.161.0/24" 
+   "type 3": [6], 
+   "type 5": [80, 443], 
+   "action": { 
+      "type ": "traffic-rate", 
+      “value ": "0" 
+}
+```
+**Traffic Rate** actoin with value 0 discards the traffic. The other possible 
+actions include rate limiting, redirecting or filtering. 
+
+If no rule is specified, the default action is to accept the traffic.
+
+In contrast to ACL filters, *FlowSpec* leverages BGP control plane, making it 
+easier to add rules to all routers simultaneously.
+
+FlowSpec is effective in *intra-domain* environments but **NOT** *inter-domain*.
+
+It also **might not scale for large attacks** where the attack traffic originates 
+from multiple sources. This would require multiple rules or combining sources into 
+a single prefix.
+
+# DDoS Mitigation Techniques: BGP Blackholing
+
+A countermeasure to DDoS attacks.
+
+All traffic to a targeted DDoS destination is dropped to a null location. 
+**This approach tries to stop traffic closer to the source/origin**. 
+
+***Effective for high volume attacks***.
+
+This technique is implemented either with the help of upstream provider or 
+with an IXP (if the network is already peering with an IXP). The victim AS 
+uses BGP to communicate the attacked destination prefix to its upstream AS. 
+The traffic heading towards the prefix is then dropped. 
+
+Either the provider or IXP will 
+
