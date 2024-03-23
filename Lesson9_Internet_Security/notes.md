@@ -884,7 +884,7 @@ BGP Flowspec example: The following flow specification rule (specified here in a
       “value ": "0" 
 }
 ```
-**Traffic Rate** actoin with value 0 discards the traffic. The other possible 
+**Traffic Rate** action with value 0 discards the traffic. The other possible 
 actions include rate limiting, redirecting or filtering. 
 
 If no rule is specified, the default action is to accept the traffic.
@@ -912,5 +912,144 @@ with an IXP (if the network is already peering with an IXP). The victim AS
 uses BGP to communicate the attacked destination prefix to its upstream AS. 
 The traffic heading towards the prefix is then dropped. 
 
-Either the provider or IXP will 
+Either the provider or IXP will advertise a prefix to divert the attack traffic 
+to a null interface. The blackhole messages are tagged with a specific 
+BGP blackhole community attribute, which is publicly available, differentiating
+it from the regular routing updates.
+
+**Scenario:** Blackholing implemented with the help of an upstream provider
+
+- A network that offers blackholing service, is a blackholing provider
+- This network is responsible for providing the blackholing community that 
+should be used.
+  - ISPs, or IXPs can act as blackholing providers
+- IF the blackholing provider is a peer or an upstream provider, the AS 
+*must* announce its associated blackhole community along with the blackhole 
+prefix.
+
+Consider the figure: IP `130.149.1.1` in AS2 is under attack
+
+![What is BGP Blackholing?](./ImagesLesson9/14.png)
+
+To mitigate attack, AS2 (victim) announces blackholing messages to AS1, 
+the provider network. The message contains IP `130.149.1.1/32`, the 
+host IP under attack, and the community field set to AS1: 666, 
+the blackholing community of AS1.
+
+**Scenario:** Blackholing is implemented with the help of the IXP where 
+the victim network is already a participant.
+
+At IXPs, if the AS is a member of an IXP infrastructure and its under attack, 
+it sends blackholing messages to the IXP route server when a member connects 
+to the route server. Route server announces messages to all other 
+connected IXP member ASes, they drop the traffic towards the blackhole prefix.
+
+The blackholing message sent to the IXP should contain the IX blackhole 
+community as shown in the following figure 
+
+![What is BGP blackholing?](./ImagesLesson9/15.png)
+
+Similar to the last example, AS connects to the router server of the IXP and 
+sends a BGP blackholing message. The message contains:
+- The IP under attack 
+- The community field set to ASIXP: 666 (blackholing community at IXP)
+
+The route server identifies it as a blackholing message and sets the 
+next hot of `130.149.1.1` IP to a blackholing IP. It propagates this
+announcement to all member ASes, which then drop traffic whose destination is 
+host IP: `130.149.1.1`
+
+# Quiz 6 
+
+### Question 1
+Which mitigation technique uses fine-grained filters across AS domain 
+borders, and attributes such as length and fragment can be used to 
+match traffic? 
+
+- Traffic Scrubbing Services
+- ACL Filters
+- BGP FlowSpec
+
+### Answer
+- BGP FlowSpec
+
+### Question 2
+Which defense mechanism consists on a service that diverts the 
+incoming traffic to a specialized server, where traffic is divided 
+in either clean or unwanted traffic, and clean traffic is then sent 
+to its original destination? 
+
+- Traffic Scrubbing Services
+- ACL Filters
+- BGP Flowspec
+
+### Answer
+- Traffic Scrubbing Services
+
+### Question 3
+BGP Blackholing stops the traffic closer to the destination of the attack. 
+
+- True
+- False
+
+### Answer
+- False
+
+### Question 4 
+BGP Blackholing is used to mitigate DDoS attacks.
+
+- True
+- False
+
+### Answer
+- True
+
+# DDoS Mitigation Techniques: BGP Blackholing Limitations and Problems
+
+A major drawback of BGP blackholing is that the destination under attack
+becomes unreachable since all traffic including legit traffic is blocked.
+
+**Scenario:** Consider DDoS attack 
+
+A. There is no mitigation strategy in place. 
+- The control plane prefix `100.10.10.0/24` is advertised by AS1.
+- A Web Service running on IP `100.10.10.10` comes under attack 
+  - This is residing in AS1 
+- This results in non reachable of the service by users from AS2 and AS3
+as the network port in AS1 becomes overloaded.
+
+![Blackholing Limitations and Problems](./ImagesLesson9/16.png)
+
+B. AS1 uses BGP blackholing to send an update the the IXP route server.
+- The message contains prefix `100.10.10.10/32` along with IXP's blackholing 
+community address: `IXP_ASN: 666` 
+- The route server propagates this to the other ASes: AS2, AS3
+- Let's assume that AS2 accepts the announcement and AS3 rejects it.
+  - Rejecting an announcement could include 
+    - voluntarily choosing not to participate in the blackholing
+    - rejecting updates that require additional config changes 
+    - AS has a misconfiguration 
+- AS2 accepts the announcement, the next hop IP for AS2 to reach the prefix 
+under attack is changed to the IXP's blackholing IP and all traffic 
+whose destination is `100.10.10.10/32` via AS2 is dropped.
+
+This causes collateral damage since all the traffic including legit traffic via 
+AS2 is dropped
+
+![Blackholing Limitations and Problems 2](./ImagesLesson9/17.png)
+
+Also, since AS3 does not honor the announcement, it allows all the traffic 
+including the legitimate and attacks traffic towards IP `100.10.10.10/32`
+to flow via AS3.
+
+As a result, the majority of the traffic is coming from AS3 then the 
+mitigation is ineffective. **This happens whenever a large number of peers do 
+not accept the blackholing announcements**
+
+### Traffic Distribution During an Attack at Large IXP
+
+![Collateral Damage of RTBH](./ImagesLesson9/18.png)
+
+As can be seen from the above figure, the traffic mostly contains web traffic on ports 80 (HTTP) and 443 (HTTPS). The attack traffic, shown in red, is majorly from the UDP port 11211 and occupies almost 70% of the entire traffic. This suggests an amplification attack. The ideal solution here would be to block the traffic only from the UDP port (11211), while allowing the remaining traffic from other ports to pass through. However, the blackholing service drops all traffic including the ones from other ports, which is still a significant amount.
+
 
