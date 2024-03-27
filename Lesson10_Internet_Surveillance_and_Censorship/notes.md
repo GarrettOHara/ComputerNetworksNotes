@@ -335,8 +335,8 @@ wit difficult to measure DNS manipulation.
 ### Question 2
 Current research methods for understanding DNS methods are scalable due to the number of volunteers participating. 
 
-True
-False
+- True
+- False
 
 ### Answer 
 False
@@ -344,8 +344,8 @@ False
 ### Question 3
 The use of Open DNS resolvers resolves some of the ethical concerns associated with Internet censorship studies. 
 
-True
-False
+- True
+- False
 
 ### Answer
 True
@@ -354,7 +354,7 @@ True
 
 In this section, we explore a method to identify DNS manipulation with a system called Iris. The figure below shows an overview of the identification process.
 
-[Overview of DNS resolution, annotation, filtering, and classification](./ImagesLesson10/2.png)
+![Overview of DNS resolution, annotation, filtering, and classification](./ImagesLesson10/2.png)
 
 In previous sections, we discussed how the lack of diversity is an issue while studying DNS manipulation. In order to counter that, Iris uses open DNS resolvers located all over the globe. In order to avoid using home routers (which are usually open due to configuration issues), this dataset is then restricted to a few thousand that are part of the Internet infrastructure. There are two main steps associated with this process:
 
@@ -384,10 +384,10 @@ If any consistency metric or independent verifiability metric is satisfied, the 
 ### Question 1 
 Iris uses _______________ obtain a dataset for machine learning. 
 
-Open DNS Resolvers
-Volunteer networks
-Misconfigured home routers
-All of the above
+- Open DNS Resolvers
+- Volunteer networks
+- Misconfigured home routers
+- All of the above
 
 ### Answer 
 Open DNS Resolvers
@@ -396,10 +396,10 @@ Open DNS Resolvers
 ### Question 2 
 Suppose Iris is being used to detect DNS manipulation. Iris queries a global resolver for an IP addresses (consistency metric) and receives a DNS A record with a different IP address than the ones stored. Which of the follow statements are true? 
 
-The response is inconsistent, and therefore will be classified as manipulated.
-The response is inconsistent, but might not be classified as manipulated.
-The response is consistent, and therefore will be classified as correct.
-The response is consistent, but might still be classified as manipulated.
+- The response is inconsistent, and therefore will be classified as manipulated.
+- The response is inconsistent, but might not be classified as manipulated.
+- The response is consistent, and therefore will be classified as correct.
+- The response is consistent, but might still be classified as manipulated.
 
 ### Answer
 The response is inconsistent, but might not be classified as manipulated.
@@ -446,7 +446,7 @@ This is a mechanism which forces a host to increment its IP ID counter by sendin
 
 Now that we know how to probe and perturb the IP ID values at a host, let’s analyze the different possible scenarios. Let the initial IP ID counter of the reflector be 5.
 
-### Now Filtering
+### No Filtering
 
 ![Connectivity Disruptions: Detecting](./ImagesLesson10/3.png)
 
@@ -476,8 +476,8 @@ Outbound blocking is the filtering imposed on the outgoing path from the reflect
 ### Question 1
 Augur is used to identify DNS-based manipulations. 
 
-True
-False
+- True
+- False
 
 ### Answer
 False
@@ -485,9 +485,9 @@ False
 ### Question 2
 Suppose we are using Augur to detect filtering between two host, and that we have a scenario where no blocking occurs. The measurement machine sends a SYN-ACK to the reflector. What should happen?  
 
-The return IP ID from the reflector to the measurement machine should increase by 2.
-The return IP ID from the reflector to the measurement machine should increase by 1.
-The return IP ID from the reflector to the measurement machine should remain the same.
+- The return IP ID from the reflector to the measurement machine should increase by 2.
+- The return IP ID from the reflector to the measurement machine should increase by 1.
+- The return IP ID from the reflector to the measurement machine should remain the same.
 
 ### Answer
 The return IP ID from the reflector to the measurement machine should increase by 2.
