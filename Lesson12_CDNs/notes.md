@@ -247,11 +247,12 @@ A simple design for DNS would have been based on a centralized model where we ha
 
 This model, though very simplistic, would not be the best option for multiple reasons. 
 1. **It introduces a single point of failure.** If that single server collapses then the entire Internet would not be able to work either! 
-2. **It would be very difficult for a single server to handle all the volume of the querying traffic.** A single DNS server would have to process a very large number of DNS queries. Third, this model is based on a centralized database which cannot be close to all querying clients. This model would cause significant delays and slow performance for the clients which are geographically distant and thus they might have to communicate over slow or congested links. And finally, maintaining this centralized database would be a big problem as we would have to update a huge database with updates for every single host in the Internet.
+2. **It would be very difficult for a single server to handle all the volume of the querying traffic.** A single DNS server would have to process a very large number of DNS queries. 
+3. **This model is based on a centralized database which cannot be close to all querying clients.** This model would cause significant delays and slow performance for the clients which are geographically distant and thus they might have to communicate over slow or congested links. And finally, maintaining this centralized database would be a big problem as we would have to update a huge database with updates for every single host in the Internet.
 
 **Because of the above reasons we have a distributed hierarchical database for DNS. The DNS uses a hierarchical scheme to solve the scalability problem. A portion of the hierarchy of the DNS servers is shown in the following diagram:**
 
-![DNS hierarchy](./ImagesLesson12/17,png)
+![DNS hierarchy](./ImagesLesson12/17.png)
 
 When a client requests the IP address for a specific domain name, as for example gatech.edu or amazon.com, the client will finally know this mapping with the help of this server hierarchy. In a nutshell, it works as follows: Let’s suppose that a client requests the IP address for amazon.com. The client will first contact the **root server**, which will return the IP address of a **top level domain server**. Then the client will contact that top level domain server to receive a referral to the **authoritative server for amazon.com.** Finally, the client will make a query to that authoritative server to receive the domain-to-IP mapping and to finally reach amazon.com. 
 
