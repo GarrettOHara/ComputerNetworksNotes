@@ -3,8 +3,6 @@
 
 # SDN
 
- It seems your browser is blocking 3rd party session cookies which are required for the Kaltura application. To resolve this issue, please update your settings to allow 3rd party cookies.
-
 In this lecture, we learn about Software Defined Networking (SDN). The need to separate control from data plane, coupled with increasing challenges that networks have been facing gradually led to the development of the SDN technology. We start with a brief overview of the stages that took place and eventually led to the development of the SDN technology. We learn about the architecture of the SDN controllers and we look into some example controllers. Finally, we learn about OpenDaylight, a popular and open source project for network programmability.   
 
 In the second lecture, we focus on data plane programmability, the P4 language (a high-level language for protocol independent packet processors). Also, we look at a P4 example application.  The SDN paradigm has been used across multiple applications such as traffic engineering, security, and data center network applications. In this lecture we are looking at how an SDN approach would work within an Internet Exchange Point.
