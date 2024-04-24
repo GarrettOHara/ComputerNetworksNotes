@@ -1,14 +1,32 @@
 # Software Defined Networking (SDN)
 ### Part 1
 
+# SDN
+
+ It seems your browser is blocking 3rd party session cookies which are required for the Kaltura application. To resolve this issue, please update your settings to allow 3rd party cookies.
+
+In this lecture, we learn about Software Defined Networking (SDN). The need to separate control from data plane, coupled with increasing challenges that networks have been facing gradually led to the development of the SDN technology. We start with a brief overview of the stages that took place and eventually led to the development of the SDN technology. We learn about the architecture of the SDN controllers and we look into some example controllers. Finally, we learn about OpenDaylight, a popular and open source project for network programmability.   
+
+In the second lecture, we focus on data plane programmability, the P4 language (a high-level language for protocol independent packet processors). Also, we look at a P4 example application.  The SDN paradigm has been used across multiple applications such as traffic engineering, security, and data center network applications. In this lecture we are looking at how an SDN approach would work within an Internet Exchange Point.
+
 # What led us to SDN?
 
-Software Defined Networking (SDN) were created to **make computer networks more programmable**.
+Software Defined Networking (SDN) arose as part of the process to make computer networks more programmable. Computer networks are very complex and especially difficult to manage for two main reasons:
 
-Computer Networks are difficult/complex for 2 reasons:
+- Diversity of equipment on the network
+- Proprietary technologies for the equipment
 
-- Diversity of equipment on networks
-- Proprietary technologies for equipment on said networks
+### Diversity of equipment
+
+Computer networks have a wide range of equipment - from routers and switches to middleboxes such as firewalls, network address translators, server load balancers, and intrusion detection systems (IDSs). The network has to handle different software adhering to different protocols for each of these equipment. Even with a network management tool offering a central point of access, they still have to operate at a level of individual protocols, mechanisms and configuration interfaces, making network management very complex.
+
+### Proprietary Technologies
+
+Equipment like routers and switches tend to run software which is closed and proprietary. This means that configuration interfaces vary between vendors. In fact, these interfaces could also differ between different products offered by the same vendor! This makes it harder for the network to manage all these devices centrally.
+
+These characteristics of computer networks made them highly complex, slow to innovate, and drove up the costs of running a network. 
+
+SDN offers new ways to redesign networks to make them more manageable!  It employs a simple idea - separation of tasks. We’ve seen that our code becomes more modular and easy to manage when we divide them into smaller functions with focused tasks. Similarly, SDN divides the network into two planes - control plane and data plane. It uses this separation to simplify management and speed up innovation!
 
 ### Diversity of Equipment
 
@@ -112,24 +130,29 @@ Able to use caching to make code distribution more efficient.
 - Network service provider frustration concerning the long timeline to develop new network services
 - Third part interests add value by implementing control at a more individualistic nature.
     - Able to meet dynamic network needs
+    - This meant dynamically meeting the needs of specific applications or network conditions.
 - Researchers interest in having a network that would support large-scale experimentation
 - Unified control over Middleboxes
+    - We discussed the disadvantage of having diverse programming models which varied not only based on the type of middlebox (for example, firewalls, proxies, etc) but based on the vendor. Active networking envisioned unified control that could replace individually managing these boxes. This actually foreshadows the trends we see now in network functions virtualization – where we also attempt to provide a central unifying framework for networks with complex middlebox functions.
 
 **Active Networks in the 1990's had similar pull reasons as SDNs now!!!**
 
 1. Programmable functions in the network to lower the barrier of innovation 
     - Early SDN focussed on **Control-Plane**
     - Active Networks focussed on the programmability of **Data-Plane**
+    - Active networks were one of the first to introduce the idea of using programmable networks to overcome the slow speed of innovation in computer networking. While many early visions for SDN concentrated on increasing programmability of the control-plane, active networks focused on the programmability of the data-plane. This has continued to develop independently. Recently, this data-plane programmability has been gaining more traction due to the emerging NFV initiatives. In addition, the concept of isolating experimental traffic from normal traffic had emerged from active networking and is heavily used in OpenFlow and other SDN technologies.
 
 2. Network virtualisation and the ability to demultiplex to software programs on packet 
 headers
     - Active networking created a framework that described a platform that would support 
     experimentation with different programming models.
     - This lead to network virtualisation
+    - Active networking produced a framework that described a platform that would support experimentation with different programming models. This was the need that led to network virtualization.
 
 3. The vision of a unified architecture for Middlebox orchestration
     - Unified control over middleboxes never fully came to fruition in the era of Active Networking
-    - Network Function Virtualization (NFV) took a lot of influence from Active Networks
+    - Network Function Virtualization (NFV) took a lot of influence from Active Network
+    - The last use-pull for SDN, i.e., unified control over middleboxes was never fully realized in the era of active networking. While it did not directly influence network function virtualization (NFV), some lessons from its research is useful while trying to implement unified architecture now! 
 
 ### Downfall of Active Networking
 
